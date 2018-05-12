@@ -12,5 +12,26 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return 'Home';
+});
+
+Route::get('/usuarios', function () {
+    return 'Usuarios';
+});
+
+Route::get('/usuarios/nuevo', function(){
+	return 'Creando usuario nuevo';
+});
+
+Route::get('/usuarios/{id}', function($id){
+	return "Monstrando detalle del usuario: {$id}";
+});
+
+Route::get('/saludo/{name}/{nickname?}', function($name, $nickname = null){
+	$name = ucfirst($name);
+
+	if($nickname)
+		return "Bienvenido {$name}, tu apodo es {$nickname}";
+	else
+		return "Bienvenido {$name}";
 });
