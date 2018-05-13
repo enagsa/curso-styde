@@ -13,7 +13,18 @@ class UserModuleTest extends TestCase
     {
         $this->get('/usuarios')
         	 ->assertStatus(200)
-        	 ->assertSee('Usuarios');
+        	 ->assertSee('Listado de usuarios')
+        	 ->assertSee('Nombre 1')
+        	 ->assertSee('Nombre 2');
+    }
+
+    /** @test */
+    function it_shows_a_default_message_if_there_are_no_users()
+    {
+        $this->get('/usuarios?empty')
+        	 ->assertStatus(200)
+        	 ->assertSee('Listado de usuarios')
+        	 ->assertSee('No hay usuarios registrados');
     }
 
     /** @test */
