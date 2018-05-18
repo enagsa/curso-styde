@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         $profession_id = Profession::whereTitle('Back-end developer')->value('id');
 
-        User::create([
+        factory(User::class)->create([
         	'name' => 'Enrique Aguilar',
         	'email' => 'enriqueaguilar@expacioweb.com',
         	'password' => bcrypt('1234aA@'),
@@ -24,19 +24,11 @@ class UserSeeder extends Seeder
             'is_admin' => true
         ]);
 
-        User::create([
-            'name' => 'Jesús Guerrero',
-            'email' => 'jesusguerrero@expacioweb.com',
-            'password' => bcrypt('1234aA@'),
+        factory(User::class)->create([
             'profession_id' => $profession_id
         ]);
 
-        User::create([
-            'name' => 'Manu Páez',
-            'email' => 'mauelpaez@expacioweb.com',
-            'password' => bcrypt('1234aA@'),
-            'profession_id' => null
-        ]);
+        factory(User::class, 48)->create();
 
         /*DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         DB::table('professions')->whereTitle('Web designer')->delete();
