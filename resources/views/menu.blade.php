@@ -1,11 +1,11 @@
 <ul class="navbar-nav mr-auto">
-  <li class="nav-item">
+  <?php /*<li class="nav-item">
     <a class="nav-link" href="{{ asset('/') }}">Inicio</a>
-  </li>
+  </li>*/ ?>
   <li class="nav-item">
     <a class="nav-link" href="{{ asset('/usuarios') }}">Usuarios</a>
   </li>
-  <li class="nav-item">
+  <?php /*<li class="nav-item">
     <a class="nav-link" href="{{ asset('/usuarios/15') }}">Usuario 15</a>
   </li>
   <li class="nav-item">
@@ -13,5 +13,5 @@
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ asset('/saludo/enrique/gaurhoth') }}">Saludo</a>
-  </li>
+  </li>*/ ?>
 </ul>
