@@ -15,11 +15,13 @@ Route::get('/', function () {
     return 'Home';
 });
 
-Route::get('/usuarios', 'UserController@index');
+Route::get('/usuarios', 'UserController@index')->name('users');
 
-Route::get('/usuarios/{id}', 'UserController@edit')->where('id', '[0-9]+');
+Route::get('/usuarios/{user}', 'UserController@show')->where('user', '[0-9]+')->name('users.show');
 
-Route::get('/usuarios/nuevo', 'UserController@create');
+Route::get('/usuarios/nuevo', 'UserController@create')->name('users.create');
+
+Route::post('/usuarios/nuevo', 'UserController@store')->name('users.store');
 
 Route::get('/saludo/{name}/{nickname}', 'WelcomeUserController@welcomeWith');
 

@@ -15,13 +15,15 @@ class UserController extends Controller
     	return view('users.index', compact('title', 'users'));
     }
 
-    public function edit($id){
-        $user = User::find($id);
-
+    public function show(User $user){
     	return view('users.show', compact('user'));
     }
 
     public function create(){
     	return view('users.new');
+    }
+
+    public function store(){
+        return 'Procesando información...';
     }
 }
