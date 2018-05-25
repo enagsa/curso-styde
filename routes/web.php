@@ -23,6 +23,10 @@ Route::get('/usuarios/nuevo', 'UserController@create')->name('users.create');
 
 Route::post('/usuarios/nuevo', 'UserController@store')->name('users.store');
 
+Route::get('/usuarios/{user}/editar', 'UserController@edit')->name('users.edit');
+
+Route::put('/usuarios/{user}/editar', 'UserController@update')->name('users.update');
+
 Route::get('/saludo/{name}/{nickname}', 'WelcomeUserController@welcomeWith');
 
 Route::get('/saludo/{name}', 'WelcomeUserController@welcomeWithout');
