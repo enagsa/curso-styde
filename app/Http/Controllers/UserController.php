@@ -53,14 +53,14 @@ class UserController extends Controller
     public function update(User $user){
         $data = request()->validate([
             'name' => 'required',
-            'email' => 'required|email',//|unique:users,email',
-            'password' => ''//'between:5,100',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'password' => 'nullable|between:5,100',
         ], [
             'name.required' => 'El campo nombre es obligatorio',
             'email.required' => 'El campo email es obligatorio',
             'email.email' => 'El campo email no es válido',
-            //'email.unique' => 'Email ya registrado',
-            //'password.between' => 'La contraseña es demasiado corta'
+            'email.unique' => 'Email ya registrado',
+            'password.between' => 'La contraseña es demasiado corta'
         ]);
 
         if($data['password'] != null)
@@ -71,5 +71,10 @@ class UserController extends Controller
         $user->update($data);
 
         return redirect()->route('users.show', compact('user'));
+    }
+
+    public function destroy(User $user){
+        $user->delete();
+        return redirect()->route('users');
     }
 }

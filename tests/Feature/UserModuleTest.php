@@ -255,12 +255,8 @@ class UserModuleTest extends TestCase
 
     /** @test */
     function the_email_must_be_unique_when_updating_a_user(){
-        $this->markTestIncomplete();
-        return;
-
-        $previous_user = factory(User::class)->create([
-            'name' => 'Enrique Aguilar',
-            'email' => 'enriqueaguilar@expacioweb.com'
+        factory(User::class)->create([
+            'email' => 'existing-email@example.com'
         ]);
 
         $user = factory(User::class)->create();
@@ -268,7 +264,7 @@ class UserModuleTest extends TestCase
         $this->from(route('users.edit', compact('user')))
             ->put(route('users.update', compact('user')), [
                 'name' => 'Tipo de Incognito',
-                'email' => 'enriqueaguilar@expacioweb.com',
+                'email' => 'existing-email@example.com',
                 'password' => '12345'
             ])
             ->assertRedirect(route('users.edit', compact('user')))
@@ -276,6 +272,26 @@ class UserModuleTest extends TestCase
 
         $this->assertDatabaseMissing('users', [
             'name' => 'Tipo de Incóginto'
+        ]);
+    }
+
+    /** @test */
+    function the_users_email_can_stay_the_same_is_optional_when_updating_a_user(){
+        $user = factory(User::class)->create([
+            'email' => 'enriqueaguilar@expacioweb.com'
+        ]);
+
+        $this->from(route('users.edit', compact('user')))
+            ->put(route('users.update', compact('user')), [
+                'name' => 'Enrique',
+                'email' => 'enriqueaguilar@expacioweb.com',
+                'password' => '12345'
+            ])
+            ->assertRedirect(route('users.show', compact('user')));
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'Enrique',
+            'email' => 'enriqueaguilar@expacioweb.com'
         ]);
     }
 
@@ -298,6 +314,36 @@ class UserModuleTest extends TestCase
             'name' => 'Enrique',
             'email' => 'enriqueaguilar@expacioweb.com',
             'password' => $oldPassword
+        ]);
+    }
+
+    /** @test */
+    function the_password_is_too_short_when_updating_a_user(){
+        $user = factory(User::class)->create();
+
+        $this->from(route('users.edit', compact('user')))
+            ->put(route('users.update', compact('user')), [
+                'name' => 'Enrique Aguilar',
+                'email' => 'enriqueaguilar',
+                'password' => '1234'
+            ])
+            ->assertRedirect(route('users.edit', compact('user')))
+            ->assertSessionHasErrors(['password' => 'La contraseña es demasiado corta']);
+
+        $this->assertDatabaseMissing('users', [
+            'email' => 'enriqueaguilar@expacioweb.com'
+        ]);
+    }
+
+    /** @test */
+    function it_deletes_a_user(){
+        $user = factory(User::class)->create();
+
+        $this->delete(route('users.delete', compact('user')))
+            ->assertRedirect(route('users'));
+
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id
         ]);
     }
 }
